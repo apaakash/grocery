@@ -1,0 +1,168 @@
+body {
+    font-family: sans-serif;
+    margin: 0;
+    display: flex;
+}
+
+.container {
+    display: flex;
+    width: 100%;
+}
+
+.sidebar {
+    width: 200px;
+    background-color: #f0f0f0;
+    padding: 20px;
+}
+
+.sidebar-item {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    cursor: pointer;
+}
+
+#child_c {
+    text-decoration: none;
+    color: black;
+}
+
+#child_c img {
+    width: 30px;
+    margin-right: 10px;
+}
+
+.sidebar-item.active {
+    background-color: #ddd;
+}
+
+.content {
+    flex-grow: 1;
+    padding: 20px;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.sort-dropdown {
+    position: relative;
+    cursor: pointer;
+    /* Remove the absolute positioning to make it visible outside the header */
+    /* top: 100%; */
+    /* left: 0; */
+}
+
+.dropdown-trigger {
+    border: 1px solid #ccc;
+    padding: 5px 10px;
+}
+
+.dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: white;
+    border: 1px solid #ccc;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: none;
+    width: 200px;
+}
+
+.dropdown-menu.show {
+    display: block;
+}
+
+.dropdown-menu li {
+    padding: 8px 12px;
+    cursor: pointer;
+}
+
+.dropdown-menu li:hover {
+    background-color: #f0f0f0;
+}
+
+.dropdown-menu li.selected::before {
+    content: "\2713";
+    /* Unicode character for checkmark */
+    color: green;
+    /* Green color for the checkmark */
+    margin-right: 5px;
+    /* Add some space between the checkmark and text */
+}
+
+.products {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+.product {
+    border: 1px solid #ddd;
+    padding: 10px;
+}
+
+.product-image {
+    position: relative;
+}
+
+.product-image img {
+    width: 100%;
+    height: auto;
+}
+
+.discount {
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    background-color: red;
+    color: white;
+    padding: 3px 5px;
+    font-size: 0.8em;
+}
+
+.product-details {
+    margin-top: 10px;
+}
+
+.price {
+    margin-top: 5px;
+}
+
+.original-price {
+    text-decoration: line-through;
+    color: #888;
+    margin-left: 5px;
+}
+
+.add-button {
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.sort-dropdown {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.sort-dropdown label {
+    font-weight: bold;
+}
+
+.sort-dropdown select {
+    padding: 5px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    cursor: pointer;
+}
