@@ -9,11 +9,12 @@ $parent_id = $_GET['parent_id'];
 $parent = $conn->query("SELECT * FROM parent_categories WHERE id = $parent_id")->fetch_assoc();
 $childs = $conn->query("SELECT * FROM child_categories WHERE parent_id = $parent_id");
 
-// Fetch Items
-$items = $conn->query("SELECT items.*, items.image AS item_image, child_categories.name AS category_name, child_categories.image AS category_image, parent_categories.image AS parent_image
-    FROM items 
-    JOIN child_categories ON items.category_id = child_categories.id
-    JOIN parent_categories ON child_categories.parent_id = parent_categories.id");
+$child_id = isset($_GET['child_id']) ? $_GET['child_id'] : null;
+$items = null;
+
+if ($child_id) {
+    $items = $conn->query("SELECT * FROM items WHERE category_id = $child_id");
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -30,7 +31,7 @@ $items = $conn->query("SELECT items.*, items.image AS item_image, child_categori
         <aside class="sidebar">
             <?php while ($child = $childs->fetch_assoc()) : ?>
                 <div class="sidebar-item">
-                    <a id="child_c" href="">
+                    <a id="child_c" href="Child_product?parent_id=<?= $parent_id ?>&child_id=<?= $child['id'] ?>">
                         <img src="Child-item/<?= $child['image'] ?>" alt="<?= $child['name'] ?>">
                         <span><?= $child['name'] ?></span>
                     </a>
@@ -52,23 +53,27 @@ $items = $conn->query("SELECT items.*, items.image AS item_image, child_categori
                 </div>
             </header>
             <div class="products">
-                <?php while ($item = $items->fetch_assoc()) : ?>
-                    <div class="product">
-                        <div class="product-image">
-                            <img src="./p-item/<?= $item['image'] ?>" alt="<?= $item['name'] ?>">
-                            <span class="discount">48% OFF</span>
-                        </div>
-                        <div class="product-details">
-                            <p><?= $item['name'] ?></p>
-                            <p>1 pack</p>
-                            <div class="price">
-                                <span>₹<?= $item['price'] ?></span>
-                                <span class="original-price">₹25</span>
+                <?php if ($items && $items->num_rows > 0) : ?>
+                    <?php while ($item = $items->fetch_assoc()) : ?>
+                        <div class="product">
+                            <div class="product-image">
+                                <img src="./p-item/<?= $item['image'] ?>" alt="<?= $item['name'] ?>">
+                                <span class="discount">48% OFF</span>
                             </div>
-                            <button class="add-button">ADD</button>
+                            <div class="product-details">
+                                <p><?= $item['name'] ?></p>
+                                <p>1 pack</p>
+                                <div class="price">
+                                    <span>₹<?= $item['price'] ?></span>
+                                    <span class="original-price">₹25</span>
+                                </div>
+                                <button class="add-button">ADD</button>
+                            </div>
                         </div>
-                    </div>
-                <?php endwhile; ?>
+                    <?php endwhile; ?>
+                <?php else : ?>
+                    <p>No products found.</p>
+                <?php endif; ?>
             </div>
         </main>
     </div>
@@ -76,5 +81,3 @@ $items = $conn->query("SELECT items.*, items.image AS item_image, child_categori
 </body>
 
 </html>
-
-<!-- gejndvdvd -->
