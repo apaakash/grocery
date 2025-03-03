@@ -273,6 +273,8 @@ body {
     font-weight: bold;
 }
 
+/* product section*/
+
 .product-section {
     position: relative;
     max-width: 100%;
@@ -396,6 +398,9 @@ body {
 .scroll-right {
     right: 0;
 }
+
+
+/* End */
 
 @media (max-width: 768px) {
     .product-container {

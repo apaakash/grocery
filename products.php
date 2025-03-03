@@ -19,6 +19,7 @@ $items = $conn->query("SELECT * FROM items WHERE category_id = $child_id");
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rolling Paper Shop</title>
     <link rel="stylesheet" href="./old/style.css">
+    <style></style>
 </head>
 
 <body>
@@ -47,32 +48,37 @@ $items = $conn->query("SELECT * FROM items WHERE category_id = $child_id");
                     </select>
                 </div>
             </header>
-            <div class="products">
+            <div class="product-container" id="productContainer1">
+                <!-- Product List -->
                 <?php if ($items->num_rows > 0) : ?>
                     <?php while ($item = $items->fetch_assoc()) : ?>
-                        <div class="product">
-                            <div class="product-image">
-                                <img src="./p-item/<?= $item['image'] ?>" alt="<?= $item['name'] ?>">
-                                <span class="discount">48% OFF</span>
+                        <div class="product-card">
+                            <?php if (!empty($item['offer'])) : ?>
+                                <div class="offer-label"><?= $item['offer'] ?></div>
+                            <?php endif; ?>
+                            <img src="./p-item/<?= $item['image'] ?>" alt="<?= $item['name'] ?>">
+                            <h3><?= $item['name'] ?></h3>
+                            <p class="weight">
+                                <?= !empty($item['weight']) ? str_replace(',', ' | ', $item['weight']) : 'N/A' ?>
+                            </p>
+                            <div class="price-container">
+                                <p class="price">₹<?= $item['price'] ?></p>
+                                <?php if (!empty($item['old_price'])) : ?>
+                                    <p class="old-price">₹<?= $item['old_price'] ?></p>
+                                <?php endif; ?>
                             </div>
-                            <div class="product-details">
-                                <p><?= $item['name'] ?></p>
-                                <p>1 pack</p>
-                                <div class="price">
-                                    <span>₹<?= $item['price'] ?></span>
-                                    <span class="original-price">₹25</span>
-                                </div>
-                                <button class="add-button">ADD</button>
-                            </div>
+                            <button class="add-btn">ADD</button>
                         </div>
                     <?php endwhile; ?>
                 <?php else : ?>
                     <p>No products found.</p>
                 <?php endif; ?>
             </div>
+
         </main>
     </div>
     <script src="./old/script.js"></script>
     <?php include "./Nav/footer.php"; ?>
 </body>
+
 </html>
