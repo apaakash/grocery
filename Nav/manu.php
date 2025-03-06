@@ -50,7 +50,7 @@ $categories = $conn->query("SELECT * FROM parent_categories");
                     </ul>
                 </div>
                 <a href="#" class="nav-item mx-3"><i class="bi bi-bag-check"></i></a>
-                <a href="#" class="nav-item mx-3"><img id="logo" src="logo1.png" alt="" /></a>
+                <a href="#" class="nav-item mx-3"><img id="logo" src="./logo1.png" alt="Logo" /></a>
             </div>
         </div>
     </nav>

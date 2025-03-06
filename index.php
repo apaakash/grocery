@@ -6,7 +6,7 @@ include "./Nav/Manu.php";
 <!--Catigiry-->
 <div class="container">
     <div class="category full-width">
-        <img src="Group-33704.webp" alt="Paan Corner" class="category-image">
+        <img src="./img/Group-33704.webp" alt="Paan Corner" class="category-image">
         <!--<div class="category-content">
                 <h3>Paan Corner</h3>
                 <p>Your favorite paan shop is now online</p>
@@ -16,13 +16,13 @@ include "./Nav/Manu.php";
 </div>
 <div class="parent-div">
     <div class="child-div">
-        <img src="Pet-Care_WEB.avif" alt="Pet-Care">
+        <img src="./img/Pet-Care_WEB.avif" alt="Pet-Care">
     </div>
     <div class="child-div">
-        <img src="pharmacy-WEB.avif" alt="pharmacy">
+        <img src="./img/pharmacy-WEB.avif" alt="pharmacy">
     </div>
     <div class="child-div">
-        <img src="babycare-WEB.avif" alt="babycare">
+        <img src="./img/babycare-WEB.avif" alt="babycare">
     </div>
 </div>
 <!--End-->

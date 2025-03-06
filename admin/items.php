@@ -5,22 +5,27 @@ include '../config.php';
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $name = $_POST['name'];
     $description = $_POST['description'];
-    $price = $_POST['price'];
     $old_price = $_POST['old_price'];
     $offer = $_POST['offer'];
     $category_id = $_POST['category_id'];
     $image = $_FILES['image']['name'];
     $target = "../P-item/" . basename($image);
 
+    // Convert offer percentage to numeric value (e.g., "10% OFF" → 10)
+    $discountValue = (int) filter_var($offer, FILTER_SANITIZE_NUMBER_INT);
+
+    // Calculate new price
+    $price = $old_price - ($old_price * ($discountValue / 100));
+
     // Weight Handling
-    $weights = isset($_POST['weight']) ? $_POST['weight'] : []; // Get weight array
-    $customWeight = trim($_POST['custom_weight']); // Get custom weight input
+    $weights = isset($_POST['weight']) ? $_POST['weight'] : [];
+    $customWeight = trim($_POST['custom_weight']);
 
     if (!empty($customWeight)) {
-        $weights[] = $customWeight; // Add custom weight
+        $weights[] = $customWeight;
     }
 
-    $weightsString = implode(', ', $weights); // Convert weight array to string
+    $weightsString = implode(', ', $weights);
 
     // Upload image and insert data
     if (move_uploaded_file($_FILES['image']['tmp_name'], $target)) {
@@ -52,6 +57,18 @@ while ($row = $itemResult->fetch_assoc()) {
 <head>
     <title>Manage Items</title>
     <link rel="stylesheet" href="../style.css">
+    <script>
+        function calculatePrice() {
+            let oldPrice = parseFloat(document.getElementById("old_price").value) || 0;
+            let offerText = document.getElementById("offer").value;
+            let discount = parseFloat(offerText.replace(/[^0-9]/g, '')) || 0;
+            let newPrice = oldPrice - (oldPrice * (discount / 100));
+
+            if (!isNaN(newPrice)) {
+                document.getElementById("price").value = newPrice.toFixed(2);
+            }
+        }
+    </script>
 </head>
 
 <body>
@@ -59,9 +76,9 @@ while ($row = $itemResult->fetch_assoc()) {
     <form method="post" enctype="multipart/form-data">
         <input type="text" name="name" placeholder="Item Name" required>
         <textarea name="description" placeholder="Description"></textarea>
-        <input type="number" name="price" placeholder="Price" step="0.01" required>
-        <input type="number" name="old_price" placeholder="Old Price" step="0.01" required>
-        <input type="text" name="offer" placeholder="Offer (e.g., 10% OFF)" required>
+        <input type="number" id="old_price" name="old_price" placeholder="Old Price" step="0.01" required oninput="calculatePrice()">
+        <input type="text" id="offer" name="offer" placeholder="Offer (e.g., 10% OFF)" required oninput="calculatePrice()">
+        <input type="number" id="price" name="price" placeholder="New Price" step="0.01" readonly>
 
         <label>Weight:</label>
         <div>
@@ -87,7 +104,7 @@ while ($row = $itemResult->fetch_assoc()) {
         <?php foreach ($items as $item) : ?>
             <li>
                 <img src="../P-item/<?= $item['image'] ?>" width="50" height="50">
-                <?= $item['name'] ?> - ₹<?= $item['price'] ?> (<?= $item['category_name'] ?>) - <?= $item['weight'] ?> - <?= $item['offer'] ?>
+                <?= $item['name'] ?> - ₹<?= $item['price'] ?> (Old: ₹<?= $item['old_price'] ?>) - <?= $item['category_name'] ?> - <?= $item['weight'] ?> - <?= $item['offer'] ?>
             </li>
         <?php endforeach; ?>
     </ul>
